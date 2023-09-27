@@ -29,9 +29,12 @@ router.get("/:id/comments", (req, res) => {
     return res.status(404).json({ error: "Post not found" });
   }
 
-  const postComments = data.comments.filter(
-    (comment) => comment.postId === postId
-  );
+  const postComments = data.comments
+    .filter((comment) => comment.postId === postId)
+    .map((comment) => {
+      const { postId, ...rest } = comment;
+      return rest;
+    });
 
   res.json(postComments);
 });
